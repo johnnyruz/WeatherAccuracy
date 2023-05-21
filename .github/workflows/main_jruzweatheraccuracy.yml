@@ -40,3 +40,5 @@ jobs:
           slot-name: 'Production'
           package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
           publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B2FC763AFE0945B08D66723F543E4862 }}
+        env:
+          TestVariable: '12345'
