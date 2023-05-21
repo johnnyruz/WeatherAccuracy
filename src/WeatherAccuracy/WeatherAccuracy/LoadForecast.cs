@@ -63,7 +63,7 @@ namespace WeatherAccuracy
             var table = tableClient.GetTableClient(Environment.GetEnvironmentVariable("TABLE_STORAGE_TABLE_NAME"));
 
             DateTime utcTime = DateTime.UtcNow;
-            TimeZoneInfo targetTimeZone = TimeZoneInfo.FindSystemTimeZoneById(Environment.GetEnvironmentVariable("TargetTimeZone"));
+            TimeZoneInfo targetTimeZone = TimeZoneInfo.FindSystemTimeZoneById(Environment.GetEnvironmentVariable("TARGET_TIME_ZONE"));
             DateTime targetTime = TimeZoneInfo.ConvertTimeFromUtc(utcTime, targetTimeZone);
 
             // Create a new entity with the data to be stored
