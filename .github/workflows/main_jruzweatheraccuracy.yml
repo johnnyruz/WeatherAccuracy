@@ -77,6 +77,7 @@ jobs:
         container_name: '${{ vars.TFSTATE_CONTAINER_NAME }}'
         storage_account_name: '${{ vars.TFSTATE_STORAGE_ACCOUNT }}'
         file_name: 'terraform.tfstate'
+        tf_working_directory: ./IaC
       
 
     # Checks that all Terraform configuration files adhere to a canonical format
@@ -192,6 +193,7 @@ jobs:
         container_name: '${{ vars.TFSTATE_CONTAINER_NAME }}'
         storage_account_name: '${{ vars.TFSTATE_STORAGE_ACCOUNT }}'
         file_name: 'terraform.tfstate'
+        tf_working_directory: ./IaC
 
     # Download saved plan from artifacts  
     - name: Download Terraform Plan
