@@ -57,12 +57,12 @@ resource "azurerm_linux_function_app" "function" {
   service_plan_id            = azurerm_service_plan.sp.id
 
   app_settings = {
-    TABLE_STORAGE_CONN_STRING      = azurerm_storage_account.function_storage.primary_connection_string
-    TABLE_STORAGE_TABLE_NAME       = azurerm_storage_table.data_table.name
-    TARGET_TIME_ZONE               = var.target_time_zone
-    WEATHER_API_ENDPOINT           = var.weather_api_endpoint
-    WEATHER_API_KEY                = var.weather_api_key
-    ZIP_CODE                       = var.zip_code
+    TABLE_STORAGE_CONN_STRING = azurerm_storage_account.function_storage.primary_connection_string
+    TABLE_STORAGE_TABLE_NAME  = azurerm_storage_table.data_table.name
+    TARGET_TIME_ZONE          = var.target_time_zone
+    WEATHER_API_ENDPOINT      = var.weather_api_endpoint
+    WEATHER_API_KEY           = var.weather_api_key
+    ZIP_CODE                  = var.zip_code
   }
 
   site_config {
