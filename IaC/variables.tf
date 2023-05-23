@@ -23,22 +23,22 @@ variable "app_service_name" {
 }
 
 variable "app_insights_name" {
-  type = string
+  type    = string
   default = "tf-weather-appinsights"
 }
 
 variable "target_time_zone" {
-  type = string
+  type    = string
   default = "Eastern Standard Time"
 }
 
 variable "weather_api_endpoint" {
-  type = string
+  type    = string
   default = "http://api.weatherapi.com/v1/"
 }
 
 variable "weather_api_key" {
-  type = string
+  type      = string
   sensitive = true
 }
 
