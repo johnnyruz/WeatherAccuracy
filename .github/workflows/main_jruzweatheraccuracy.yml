@@ -213,15 +213,17 @@ jobs:
 
       - name: get-publish-profile
         run: |
-          echo "::set-output name=PUBLISH_PROFILE::$(az webapp deployment list-publishing-profiles -g '${{ vars.resource_group_name }}' -n '${{ vars.app_service_name }}' --xml)"
+          echo "PUBLISH_PROFILE=$(az webapp deployment list-publishing-profiles -g '${{ vars.resource_group_name }}' -n '${{ vars.app_service_name }}' --xml)" >> $GITHUB_OUTPUT
         id: getPublishProfile
+
+      - run: echo ${{ steps.getPublishProfile.outputs.PUBLISH_PROFILE }}
         
       - name: 'Run Azure Functions Action'
         uses: Azure/functions-action@v1
         id: fa
         with:
           app-name: 'jruzweatheraccuracy'
-          slot-name: 'Production'
+          #slot-name: 'Production'
           package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
           publish-profile: ${{ steps.getPublishProfile.outputs.PUBLISH_PROFILE }}
 
