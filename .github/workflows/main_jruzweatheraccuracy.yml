@@ -137,6 +137,9 @@ jobs:
                 repo: context.repo.repo,
                 body: body
             })
+
+    - run: ls .
+      
                 
   terraform-apply:
     name: 'Terraform Apply'
