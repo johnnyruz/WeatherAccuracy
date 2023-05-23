@@ -203,6 +203,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: [terraform-plan, terraform-apply]
     if: |
+      always() &&
       github.ref == 'refs/heads/main' &&
       needs.terraform-plan.result == 'success' &&
       (needs.terraform-apply.result == 'success' || needs.terraform-apply.result == 'skipped')
