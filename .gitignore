@@ -400,4 +400,4 @@ FodyWeavers.xsd
 *.sln.iml
 
 # remove credentials other than template
-credentials-real.json
+local.credentials*.json
