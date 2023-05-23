@@ -66,7 +66,9 @@ resource "azurerm_linux_function_app" "function" {
     ZIP_CODE                       = var.zip_code
   }
 
-  site_config {}
+  site_config {
+    application_insights_key = azurerm_application_insights.app_insights.instrumentation_key
+  }
 
   depends_on = [
     azurerm_resource_group.rg,
