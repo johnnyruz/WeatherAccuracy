@@ -201,7 +201,11 @@ jobs:
 
   build-and-deploy:
     runs-on: ubuntu-latest
-    needs: [terraform-plan]
+    needs: [terraform-plan, terraform-apply]
+    if: |
+      always() &&
+      needs.terraform-plan.result == 'success' &&
+      (needs.terraform-apply.result == 'success' || needs.terraform-apply.result == 'skipped')
     steps:
       - name: 'Checkout GitHub Action'
         uses: actions/checkout@v2
