@@ -59,9 +59,24 @@ jobs:
       with:
         terraform_wrapper: false
 
+    - name: 'Az CLI login'
+      uses: azure/login@v1
+      with:
+        client-id: ${{ secrets.AZURE_CLIENT_ID }}
+        tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+        subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-    - name: Terraform Init
-      run: terraform init
+#    - name: Terraform Init
+#      run: terraform init
+        
+    - name: Terraform init azurerm backend
+      uses: ahmedig/terraform-azurerm-backend@v4
+      with:
+        resource_group_name: '${{ vars.TFSTATE_RESOURCE_GROUP_NAME }}'
+        container_name: '${{ vars.TFSTATE_CONTAINER_NAME }}'
+        storage_account_name: '${{ vars.TFSTATE_STORAGE_ACCOUNT }}'
+        file_name: 'terraform.tfstate'
       
 
     # Checks that all Terraform configuration files adhere to a canonical format
@@ -69,12 +84,7 @@ jobs:
     - name: Terraform Format
       run: terraform fmt -check
 
-    - name: 'Az CLI login'
-      uses: azure/login@v1
-      with:
-          client-id: ${{ secrets.AZURE_CLIENT_ID }}
-          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
-          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
 
     # Generates an execution plan for Terraform
     # An exit code of 0 indicated no changes, 1 a terraform failure, 2 there are pending changes.
@@ -164,16 +174,24 @@ jobs:
     - name: Setup Terraform
       uses: hashicorp/setup-terraform@v2
 
-    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-    - name: Terraform Init
-      run: terraform init
-
     - name: 'Az CLI login'
       uses: azure/login@v1
       with:
         client-id: ${{ secrets.AZURE_CLIENT_ID }}
         tenant-id: ${{ secrets.AZURE_TENANT_ID }}
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+#    - name: Terraform Init
+#      run: terraform init
+
+    - name: Terraform init azurerm backend
+      uses: ahmedig/terraform-azurerm-backend@v4
+      with:
+        resource_group_name: '${{ vars.TFSTATE_RESOURCE_GROUP_NAME }}'
+        container_name: '${{ vars.TFSTATE_CONTAINER_NAME }}'
+        storage_account_name: '${{ vars.TFSTATE_STORAGE_ACCOUNT }}'
+        file_name: 'terraform.tfstate'
 
     # Download saved plan from artifacts  
     - name: Download Terraform Plan
