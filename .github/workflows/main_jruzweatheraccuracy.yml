@@ -25,8 +25,15 @@ env:
   #terraform variables
   TF_VAR_location: '${{ vars.location }}'
   TF_VAR_resource_group_name: '${{ vars.resource_group_name }}'
-  TF_VAR_app_prefix: '${{ vars.function_app_prefix }}'
+  TF_VAR_storage_account_name: '${{ vars.storage_account_name }}'
   TF_VAR_storage_table_name: '${{ vars.storage_table_name }}'
+  TF_VAR_app_service_plan_name: '${{ vars.app_service_plan_name }}'
+  TF_VAR_app_service_name: '${{ vars.app_service_name }}'
+  TF_VAR_app_insights_name: '${{ vars.app_insights_name }}'
+  TF_VAR_target_time_zone: '${{ vars.target_time_zone }}'
+  TF_VAR_weather_api_endpoint: '${{ vars.weather_api_endpoint }}'
+  TF_VAR_weather_api_key: '${{ secrets.WEATHER_API_KEY }}'
+  TF_VAR_zip_code: '${{ vars.zip_code }}'
 
 jobs:
   terraform-plan:
@@ -174,10 +181,6 @@ jobs:
       with:
         name: tfplan
 
-    - run: ls
-
-    - run: ls ..
-
     # Terraform Apply
     - name: Terraform Apply
       run: terraform apply -auto-approve ../tfplan
@@ -201,6 +204,18 @@ jobs:
           dotnet build --configuration Release --output ./output
           popd
 
+      - name: 'Az CLI login'
+        uses: azure/login@v1
+        with:
+          client-id: ${{ secrets.AZURE_CLIENT_ID }}
+          tenant-id: ${{ secrets.AZURE_TENANT_ID }}
+          subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
+
+      - name: get-publish-profile
+        run: |
+          echo "::set-output name=PUBLISH_PROFILE::$(az webapp deployment list-publishing-profiles -g '${{ vars.resource_group_name }}' -n '${{ vars.app_service_name }}' --xml)"
+        id: getPublishProfile
+        
       - name: 'Run Azure Functions Action'
         uses: Azure/functions-action@v1
         id: fa
@@ -208,6 +223,6 @@ jobs:
           app-name: 'jruzweatheraccuracy'
           slot-name: 'Production'
           package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_B2FC763AFE0945B08D66723F543E4862 }}
+          publish-profile: ${{ steps.getPublishProfile.outputs.PUBLISH_PROFILE }}
 
 
