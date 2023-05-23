@@ -74,15 +74,6 @@ jobs:
         -backend-config="container_name=${{ vars.TFSTATE_CONTAINER_NAME }}"
         -backend-config="storage_account_name=${{ vars.TFSTATE_STORAGE_ACCOUNT }}"
         -backend-config="key=terraform.tfstate"
-        
-#    - name: Terraform init azurerm backend
-#      uses: ahmedig/terraform-azurerm-backend@v4
-#      with:
-#        resource_group_name: '${{ vars.TFSTATE_RESOURCE_GROUP_NAME }}'
-#        container_name: '${{ vars.TFSTATE_CONTAINER_NAME }}'
-#        storage_account_name: '${{ vars.TFSTATE_STORAGE_ACCOUNT }}'
-#        file_name: 'terraform.tfstate'
-#        tf_working_directory: ./IaC
       
 
     # Checks that all Terraform configuration files adhere to a canonical format
@@ -188,17 +179,12 @@ jobs:
         subscription-id: ${{ secrets.AZURE_SUBSCRIPTION_ID }}
 
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-#    - name: Terraform Init
-#      run: terraform init
-
-    - name: Terraform init azurerm backend
-      uses: ahmedig/terraform-azurerm-backend@v4
-      with:
-        resource_group_name: '${{ vars.TFSTATE_RESOURCE_GROUP_NAME }}'
-        container_name: '${{ vars.TFSTATE_CONTAINER_NAME }}'
-        storage_account_name: '${{ vars.TFSTATE_STORAGE_ACCOUNT }}'
-        file_name: 'terraform.tfstate'
-        tf_working_directory: ./IaC
+    - name: Terraform Init
+      run: terraform init
+        -backend-config="resource_group_name=${{ vars.TFSTATE_RESOURCE_GROUP_NAME }}"
+        -backend-config="container_name=${{ vars.TFSTATE_CONTAINER_NAME }}"
+        -backend-config="storage_account_name=${{ vars.TFSTATE_STORAGE_ACCOUNT }}"
+        -backend-config="key=terraform.tfstate"
 
     # Download saved plan from artifacts  
     - name: Download Terraform Plan
