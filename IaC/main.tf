@@ -57,7 +57,6 @@ resource "azurerm_linux_function_app" "function" {
   service_plan_id            = azurerm_service_plan.sp.id
 
   app_settings = {
-    APPINSIGHTS_INSTRUMENTATIONKEY = azurerm_application_insights.app_insights.instrumentation_key
     TABLE_STORAGE_CONN_STRING      = azurerm_storage_account.function_storage.primary_connection_string
     TABLE_STORAGE_TABLE_NAME       = azurerm_storage_table.data_table.name
     TARGET_TIME_ZONE               = var.target_time_zone
