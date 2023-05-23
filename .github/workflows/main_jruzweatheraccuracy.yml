@@ -78,7 +78,7 @@ jobs:
         terraform plan \
           -detailed-exitcode \
           -no-color \
-          -out plan.tfplan \
+          -out tfplan \
           || export exitcode=$?
 
         echo "exitcode=$exitcode" >> $GITHUB_OUTPUT
@@ -89,13 +89,15 @@ jobs:
         else 
           exit 0
         fi
+
+    - run: ls
         
     # Save plan to artifacts  
     - name: Publish Terraform Plan
       uses: actions/upload-artifact@v3
       with:
         name: tfplan
-        path: plan.tfplan
+        path: tfplan
         
     # Create string output of Terraform Plan
     - name: Create String Output
@@ -172,7 +174,7 @@ jobs:
 
     # Terraform Apply
     - name: Terraform Apply
-      run: terraform apply -auto-approve plan.tfplan
+      run: terraform apply -auto-approve tfplan
 
   build-and-deploy:
     runs-on: ubuntu-latest
