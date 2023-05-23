@@ -117,7 +117,7 @@ In order to successfully run the GitHub Actions in this repository - you will ha
 | TFSTATE_CONTAINER_NAME      | Azure Storage Container that has your Terraform State File                              |
 | TFSTATE_RESOURCE_GROUP_NAME | Resource Group of the Azure Storage Resource that has your Terraform State File         |
 | TFSTATE_STORAGE_ACCOUNT     | Azure Storage Account that has your Terraform State File                                |
-| WEATHER_API_ENDPOINT        | Weather API Endpoint (should be http://api.weatherapi.com/v1/                           |
+| WEATHER_API_ENDPOINT        | Weather API Endpoint (should be http://api.weatherapi.com/v1/)                          |
 | ZIP_CODE                    | Desired Zip Code to monitor forecast accuracy                                           |
 
 
